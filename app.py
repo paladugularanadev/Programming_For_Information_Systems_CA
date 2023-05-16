@@ -1,23 +1,23 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_session import Session
+from cs50 import SQL
 from flask import Flask, render_template, redirect, request, session, jsonify
 
+# # Instantiate Flask object named app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ranadev_app.db'
 
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    email = db.Column(db.String(120), unique=True)
-
-db.create_all()
+# # Configure sessions
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+db = SQL ( "sqlite:///ranadev_app.db" )
 
 @app.route("/")
 def index():
-    products = db.execute("SELECT * FROM products ORDER BY team ASC")
+    products = db.execute("SELECT * FROM products ORDER BY product ASC")
     productsLen = len(products)
+    
     # Initialize variables
     shoppingCart = []
     shopLen = len(shoppingCart)
@@ -31,9 +31,6 @@ def index():
             totItems += shoppingCart[i]["SUM(qty)"]
         products = db.execute("SELECT * FROM products ORDER BY product ASC")
         productsLen = len(products)
-        return render_template ("index.html", shoppingCart=shoppingCart, products=products, shopLen=shopLen, productsLen=productsLen, total=total, totItems=totItems, display=display, session=session )
-    return render_template ( "index.html", products=products, shoppingCart=shoppingCart, productsLen=productsLen, shopLen=shopLen, total=total, totItems=totItems, display=display)
+        return render_template("index.html", shoppingCart=shoppingCart, products=products, shopLen=shopLen, productsLen=productsLen, total=total, totItems=totItems, display=display, session=session)
+    return render_template("index.html", products=products, shoppingCart=shoppingCart, productsLen=productsLen, shopLen=shopLen, total=total, totItems=totItems, display=display)
 
-
-if __name__ == '__main__':
-    app.run(host='127.0.0.1',port=5050)
