@@ -99,7 +99,7 @@ tr {
 
 .quantity{
         height: 24px;
-        width: 48px;
+        width: 20px!important;
         text-align: center;
         margin: 0 12px;
         border-radius: 2px;

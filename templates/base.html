@@ -10,7 +10,7 @@
         <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
             crossorigin="anonymous">
-        <link href="{{ url_for('static',filename='static/styles.css') }}" rel="stylesheet" type="text/css" />
+        <link src="../static/styles.css" rel="stylesheet" type="text/css" />
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
         <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 
@@ -86,7 +86,7 @@
                             </tfoot>
                             {% else %}
                               <tr>
-                                <td colSpan="7"><h3>Your cart is empty :\</h3></td>
+                                <td colSpan="7"><h3>Cart is empty</h3></td>
                               </tr>
                             </tbody>
                             <tfoot>
@@ -121,7 +121,7 @@
               
               {% else %}
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a href="/new/" class="nav-link">Register</a></li>
+                <li class="nav-item"><a href="/register/" class="nav-link">Register</a></li>
                 <li class="nav-item"><a href="/login/" class="nav-link">LogIn</a></li>
               {% endif %}
                
@@ -155,7 +155,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"> </script>
       
-        <script src="{{ url_for('static',filename='static/estorescript.js') }}"> </script>
-        <script src="{{ url_for('static',filename='static/validate.js') }}"> </script>
+            <script type="text/javascript" src="../static/estorescript.js"> </script>
+            <script type="text/javascript" src="../static/validate.js"> </script>
     </body>
 </html>
