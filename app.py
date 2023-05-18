@@ -158,3 +158,36 @@ def logged():
         return redirect ( "/" )
     
     return render_template ( "login.html", msg="Wrong username or password." )
+
+@app.route("/remove/", methods=["GET"])
+def remove():
+   
+    out = int(request.args.get("id"))
+   
+    db.execute("DELETE from cart WHERE id=:id", id=out)
+    
+    totItems, total, display = 0, 0, 0
+    
+    shoppingCart = db.execute("SELECT product, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY product")
+    shopLen = len(shoppingCart)
+    for i in range(shopLen):
+        total += shoppingCart[i]["SUM(subTotal)"]
+        totItems += shoppingCart[i]["SUM(qty)"]
+    
+    display = 1
+    
+    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session )
+
+
+@app.route("/history/")
+def history():
+   
+    shoppingCart = []
+    shopLen = len(shoppingCart)
+    totItems, total, display = 0, 0, 0
+
+    myproducts = db.execute("SELECT * FROM purchases WHERE uid=:uid", uid=session["uid"])
+    myproductsLen = len(myproducts)
+   
+    return render_template("history.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, myproducts=myproducts, myproductsLen=myproductsLen)
+

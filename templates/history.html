@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tee Shirt Store
+{% endblock %}
+
+{% block body %}
+
+      <div class="row">
+        <div class="col-sm">
+          <h2>Shopping History</h2>
+          <p>Items purchased in the past.</p>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Item</th>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Date</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+           
+            {% for i in range(myproductsLen) %}
+              <tr>
+                <th scope="row">{{ i + 1 }}</th>
+                <td><img src="/static/img/{{ myproducts[i]["image"] }}" width="30px" alt="{{ myproducts[i]["team"] }}" /></td>
+                <td>{{ myproducts[i]["product"] }}</td>
+                <td>{{ myproducts[i]["quantity"] }}</td>
+                <td>{{ myproducts[i]["date"] }}</td>
+                <td><a href="/filter/?id={{ myproducts[i]["id"] }}"><button type="button" class="btn btn-warning">Purchase Again</button></a></td>
+              </tr>
+            </tbody>
+            {% endfor %}
+            <tfoot>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+{% endblock %}
