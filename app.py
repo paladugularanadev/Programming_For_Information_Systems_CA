@@ -3,11 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from cs50 import SQL
 from flask import Flask, render_template, redirect, request, session, jsonify
+from datetime import datetime
 
-# # Instantiate Flask object named app
 app = Flask(__name__)
 
-# # Configure sessions
+
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -18,7 +18,7 @@ def index():
     products = db.execute("SELECT * FROM products ORDER BY product ASC")
     productsLen = len(products)
     
-    # Initialize variables
+
     shoppingCart = []
     shopLen = len(shoppingCart)
     shopLen = len(shoppingCart)
@@ -133,7 +133,28 @@ def buy():
             total += shoppingCart[i]["SUM(subTotal)"]
             totItems += shoppingCart[i]["SUM(qty)"]
        
-        shirts = db.execute("SELECT * FROM products ORDER BY product ASC")
-        shirtsLen = len(shirts)
+        products = db.execute("SELECT * FROM products ORDER BY product ASC")
+        productsLen = len(products)
        
-        return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session )
+        return render_template("index.html", shoppingCart=shoppingCart, products=products, shopLen=shopLen, productsLen=productsLen, total=total, totItems=totItems, display=display, session=session )
+
+@app.route("/logged/", methods=["POST"] )
+def logged():
+    user = request.form["username"].lower()
+    pwd = request.form["password"]
+    
+    if user == "" or pwd == "":
+        return render_template("login.html")
+    query = "SELECT * FROM users WHERE username = :user AND password = :pwd"
+    rows = db.execute ( query, user=user, pwd=pwd )
+
+    
+    if len(rows) == 1:
+        session['user'] = user
+        session['time'] = datetime.now( )
+        session['uid'] = rows[0]["id"]
+    
+    if 'user' in session:
+        return redirect ( "/" )
+    
+    return render_template ( "login.html", msg="Wrong username or password." )
